@@ -61,10 +61,10 @@ INPUT_RECORD rec;
 DWORD	dwNOER;
 DWORD mode;
 
-void gotoMouseXY(int x, int y);
+void gotocurserXY(int x, int y);
 void Mouse_Able();
 void Mouse_Check();
-void setColor(int color);
+void Color_set(int color);
 void Chess_Board();
 void Chess_Play();
 void Error_Message(char* mas);
@@ -174,7 +174,7 @@ void Chess_Play()
 
 }
 
-void gotoMouseXY(int x, int y) {
+void gotocurserXY(int x, int y) {
 	COORD cur;
 	cur.X = x;
 	cur.Y = y;
@@ -206,7 +206,7 @@ void Mouse_Check()
 	}
 }
 
-void setColor(int color) {
+void Color_set(int color) {
 	SetConsoleTextAttribute(COUT, color);
 }
 
@@ -215,8 +215,8 @@ void Chess_Board()
 	COORD Coor = { 0,0 };
 	DWORD dw;
 	FillConsoleOutputCharacter(COUT, ' ', 80 * 80, Coor, &dw);
-	setColor(WHITE);
-	gotoMouseXY(0, 0);
+	Color_set(WHITE);
+	gotocurserXY(0, 0);
 	for (int i = 0; i < 17; i++)
 	{
 		for (int j = 0; j < 17; j++)
@@ -229,10 +229,10 @@ void Chess_Board()
 	{
 		for (int j = 0; j < 8; j++)
 		{
-			gotoMouseXY(j * 2 + 1, i * 2 + 1);
+			gotocurserXY(j * 2 + 1, i * 2 + 1);
 			if (chess_game[i][j] % 10 == 1)
 			{
-				setColor(YELLOW);
+				Color_set(YELLOW);
 				switch ((chess_game[i][j] - 1) / 10)
 				{
 				case 0:
@@ -259,7 +259,7 @@ void Chess_Board()
 			}
 			else if (chess_game[i][j] % 10 == 2)
 			{
-				setColor(RED);
+				Color_set(RED);
 				switch ((chess_game[i][j] - 1) / 10)
 				{
 				case 0:
@@ -294,8 +294,8 @@ void Chess_Board()
 
 void Error_Message(char* mas)
 {
-	setColor(WHITE);
-	gotoMouseXY(1, 17);
+	Color_set(WHITE);
+	gotocurserXY(1, 17);
 	printf("%s", mas);
 }
 
@@ -742,7 +742,7 @@ void Chess_End(int p)
 	COORD Coor = { 0,0 };
 	DWORD dw;
 	FillConsoleOutputCharacter(COUT, ' ', 80 * 80, Coor, &dw);
-	gotoMouseXY(0, 0);
+	gotocurserXY(0, 0);
 	printf("플레이어%d이 승리하였습니다.\n마우스를 클릭하면 다음판이 진행 됩니다.", p);
 	Sleep(1000);
 	Mouse_Check();
