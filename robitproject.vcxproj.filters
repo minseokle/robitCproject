@@ -15,11 +15,28 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="main.c">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="game.c">
+      <Filter>헤더 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Omok.c">
+      <Filter>헤더 파일</Filter>
+    </ClCompile>
     <ClCompile Include="chess.c">
-      <Filter>소스 파일</Filter>
+      <Filter>헤더 파일</Filter>
     </ClCompile>
-    <ClCompile Include="omok.c">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="chess.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Omok.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="game.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

@@ -1,16 +1,6 @@
-#include<Windows.h>
-#include<stdio.h>
-#include<stdlib.h>
-
-#define CIN GetStdHandle(STD_INPUT_HANDLE) // 표준 입력 디바이스
-#define COUT GetStdHandle(STD_OUTPUT_HANDLE)
-#define RED 4
-#define BLUE 1
-#define WHITE 7 
-#define YELLOW 6
+#include"chess.h"
 
 int x1, y1, x2, y2, piece, state, turnend;
-int mouse_x, mouse_y, player = 1;
 char chess_board[17][17] =
 {
 	{'-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-'},
@@ -57,49 +47,26 @@ int chess_game[8][8] =
 	{12,22,32,42,52,32,22,12},
 };
 
-INPUT_RECORD rec;
-DWORD	dwNOER;
-DWORD mode;
 
-void gotocurserXY(int x, int y);
-void Mouse_Able();
-void Mouse_Check();
-void Color_set(int color);
-void Chess_Board();
-void Chess_Play();
-void Error_Message(char* mas);
-void player_change()；
-void Chess_Pawn();
-void Chess_Rook();
-void Chess_Knigt();
-void Chess_Bishop();
-void Chess_Queen();
-void Chess_King();
-void Chess_Check();
-void Chess_End(int p);
 
-void main()
+int Chess_start()
 {
-	SetConsoleMode(GetStdHandle(STD_OUTPUT_HANDLE), ENABLE_PROCESSED_INPUT | ENABLE_MOUSE_INPUT);
-	Mouse_Able();
-	for (int i = 0; i < 17; i++)
-	{
-		for (int j = 0; j < 17; j++)
-		{
-			printf("%c", chess_board[i][j]);
-		}
-		printf("\n");
-	}
+	player = 1;
 	Chess_Board();
-	Error_Message("플레이어1차례");
+	Color_set(WHITE);
+	gotocurserXY(1, 19);
+	printf("%s차례", playername[0]);
 	while (1)
 	{
 
 		Chess_Play();
 		Chess_Board();
 		player_change();
-		Chess_Check();
-		
+		int win=Chess_Check();
+		if (win != 0)
+		{
+			return win;
+		}
 	}
 }
 
@@ -169,52 +136,14 @@ void Chess_Play()
 			turnend = 0;
 			break;
 		}
-		Error_Message("이상한 위치입니다.");
+		Print_Message("이상한 위치입니다.");
 	}
 
-}
-
-void gotocurserXY(int x, int y) {
-	COORD cur;
-	cur.X = x;
-	cur.Y = y;
-
-	SetConsoleCursorPosition(COUT, cur);
-}
-
-void Mouse_Able()
-{
-	GetConsoleMode(CIN, &mode); // 현재 콘솔 입력 모드를 가져온다.
-	SetConsoleMode(CIN, mode | ENABLE_MOUSE_INPUT); // 마우스 입력을 허용한다.
-}
-
-void Mouse_Check()
-{
-	while (1)
-	{
-		ReadConsoleInput(CIN, &rec, 1, &dwNOER);
-		if (rec.EventType == MOUSE_EVENT)
-		{
-			if (rec.Event.MouseEvent.dwButtonState & FROM_LEFT_1ST_BUTTON_PRESSED)
-			{
-				mouse_x = rec.Event.MouseEvent.dwMousePosition.X;
-				mouse_y = rec.Event.MouseEvent.dwMousePosition.Y;
-				return;
-			}
-
-		}
-	}
-}
-
-void Color_set(int color) {
-	SetConsoleTextAttribute(COUT, color);
 }
 
 void Chess_Board()
 {
-	COORD Coor = { 0,0 };
-	DWORD dw;
-	FillConsoleOutputCharacter(COUT, ' ', 80 * 80, Coor, &dw);
+	consol_clear();
 	Color_set(WHITE);
 	gotocurserXY(0, 0);
 	for (int i = 0; i < 17; i++)
@@ -289,27 +218,6 @@ void Chess_Board()
 				printf(" ");
 			}
 		}
-	}
-}
-
-void Error_Message(char* mas)
-{
-	Color_set(WHITE);
-	gotocurserXY(1, 17);
-	printf("%s", mas);
-}
-
-void player_change()
-{
-	if (player == 1)
-	{
-		player = 2;
-		Error_Message("플레이어2차례");
-	}
-	else
-	{
-		player = 1;
-		Error_Message("플레이어1차례");
 	}
 }
 
@@ -709,7 +617,7 @@ void Chess_King()
 	}
 }
 
-void Chess_Check()
+int Chess_Check()
 {
 	int p1 = 0, p2 = 0;
 	for (int i = 0; i < 8; i++)
@@ -729,23 +637,21 @@ void Chess_Check()
 	if (p1 == 0)
 	{
 		Chess_End(2);
+		return 2;
 	}
 	else if (p2 == 0)
 	{
 		Chess_End(1);
+		return 1;
 	}
+	return 0;
 
 }
 
 void Chess_End(int p)
 {
-	COORD Coor = { 0,0 };
-	DWORD dw;
-	FillConsoleOutputCharacter(COUT, ' ', 80 * 80, Coor, &dw);
+	consol_clear();
 	gotocurserXY(0, 0);
-	printf("플레이어%d이 승리하였습니다.\n마우스를 클릭하면 다음판이 진행 됩니다.", p);
-	Sleep(1000);
-	Mouse_Check();
 	for (int i = 0; i < 8; i++)
 	{
 		for (int j = 0; j < 8; j++)
@@ -753,5 +659,8 @@ void Chess_End(int p)
 			chess_game[i][j] = chess_game1[i][j];
 		}
 	}
-	Chess_Board();
+	printf("%s(이)가 승리하였습니다.\n마우스를 클릭하면 게임 선택화면으로 이동합니다.", playername[p-1]);
+	Sleep(1000);
+	Mouse_Check();
+	consol_clear();
 }

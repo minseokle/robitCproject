@@ -1,0 +1,7 @@
+   <player1 vs player2> 
+   Chess player2 win!!!
+   <player1 vs player2> 
+   Omok player1 win!!!
+   <jij vs iji> 
+   Omok jij win!!!
+end
