@@ -7,4 +7,13 @@
    <player1 vs player2> 
    Chess player1 win!!!
 
+   <player1 vs player2> 
+   Chess player1 win!!!
+
+   <player1 vs player2> 
+   Chess player1 win!!!
+
+   <player1 vs player2> 
+   Chess player1 win!!!
+
 end

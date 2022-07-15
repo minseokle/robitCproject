@@ -3,6 +3,7 @@
 #include<stdio.h>
 #include<Windows.h>
 #include<time.h>
+#include<wchar.h>
 
 #define CIN GetStdHandle(STD_INPUT_HANDLE)
 #define COUT GetStdHandle(STD_OUTPUT_HANDLE)
@@ -10,6 +11,8 @@
 #define BLUE 1
 #define WHITE 7 
 #define YELLOW 6
+#define SKY 11
+#define BACK 32
 
 INPUT_RECORD rec;
 DWORD	dwNOER;

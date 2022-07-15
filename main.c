@@ -19,6 +19,7 @@ void main()
 {
 	SetConsoleMode(COUT, ENABLE_PROCESSED_INPUT | ENABLE_MOUSE_INPUT);
 	Mouse_Able();
+	Color_set(WHITE);
 	while (1)
 	{
 		consol_clear();
