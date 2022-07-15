@@ -10,12 +10,12 @@ int Omok_start()
 	player = 1;
 	Color_set(WHITE);
 	gotocurserXY(1, 19);
-	printf("%s차례", playername[0]);
+	printf("%s차례              ", playername[0]);
 	Omok_board_set(18, 18);
 	while (1)
 	{
 		Omok_stone_down();
-		int win =Omok_end();
+		int win = Omok_end();
 		if (win != 0)
 		{
 			return win;
@@ -71,22 +71,53 @@ void Omok_board_set(int c, int r)
 
 void Omok_stone_down()
 {
+	int c3, c4, ob;
 	do
 	{
+		int x, y;
 		do
 		{
-			Mouse_Check();
-		} while (!(mouse_x % 2 == 1 && mouse_x <= 37 && mouse_y >= 0 && mouse_y <= 18 && mouse_x >= 1));
-	} while (Omok_board[mouse_y][(mouse_x) / 2] != 0);
+			do
+			{
+				Mouse_Check();
+			} while (!(mouse_x % 2 == 1 && mouse_x <= 37 && mouse_y >= 0 && mouse_y <= 18 && mouse_x >= 1));
+			x = mouse_x / 2;
+			y = mouse_y;
+		} while (Omok_board[y][(x) / 2] != 0);
+		int dx[8] = { 1,-1,0,0,1,-1,1,-1 };
+		int dy[8] = { 0,0,1,-1,1,-1,-1,1 };
+		c3 = 0, c4 = 0, ob = 0;
+		for (int k = 0; k < 8; k++)
+		{
+			int cnt = 0;
+			for (int i = y + dy[k], j = x + dx[k]; Omok_board[i][j] == player && i < 19 && i >= 0 && j < 19 && j >= 0; i += dy[k], j += dx[k], cnt++);
+			k++;
+			for (int i = y + dy[k], j = x + dx[k]; Omok_board[i][j] == player && i < 19 && i >= 0 && j < 19 && j >= 0; i += dy[k], j += dx[k], cnt++);
+			if (cnt == 3)
+			{
+				c4++;
+			}
+			if (cnt == 2)
+			{
+				c3++;
+			}
+			if (cnt > 4)
+			{
+				ob = 1;
+			}
+		}
+		Print_Message("잘못된 수 입니다.");
+	} while (player == 1 && (c4 > 1 || c3 > 1 || ob == 1));
+
 	gotocurserXY(mouse_x, mouse_y);
 	char* stone[2] = { "○", "●" };
 	printf("%s", stone[player - 1]);
-	Omok_board[mouse_y][(mouse_x-1) / 2] = player;
+	Omok_board[mouse_y][(mouse_x - 1) / 2] = player;
 }
 
 int Omok_check()
 {
-	int x = (mouse_x-1) / 2;
+	int x = (mouse_x - 1) / 2;
 	int y = mouse_y;
 	int dx[8] = { 1,-1,0,0,1,-1,1,-1 };
 	int dy[8] = { 0,0,1,-1,1,-1,-1,1 };
@@ -108,7 +139,7 @@ int Omok_end()
 	{
 		consol_clear();
 		gotocurserXY(0, 0);
-		printf("%s(이)가 승리하였습니다.\n마우스를 클릭하면 게임 선택화면을 이동합니다.", playername[player-1]);
+		printf("%s(이)가 승리하였습니다.\n마우스를 클릭하면 게임 선택화면을 이동합니다.", playername[player - 1]);
 		Sleep(1000);
 		Mouse_Check();
 		consol_clear();

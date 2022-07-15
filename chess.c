@@ -37,14 +37,14 @@ int chess_game1[8][8] =
 
 int chess_game[8][8] =
 {
-	{11,21,31,41,51,31,21,11},
+	{11,0,0,0,51,0,0,11},
 	{01,01,01,01,01,01,01,01},
 	{0,0,0,0,0,0,0,0},
 	{0,0,0,0,0,0,0,0},
 	{0,0,0,0,0,0,0,0},
 	{0,0,0,0,0,0,0,0},
 	{02,02,02,02,02,02,02,02},
-	{12,22,32,42,52,32,22,12},
+	{12,0,0,0,52,0,0,12},
 };
 
 
@@ -62,7 +62,7 @@ int Chess_start()
 		Chess_Play();
 		Chess_Board();
 		player_change();
-		int win=Chess_Check();
+		int win = Chess_Check();
 		if (win != 0)
 		{
 			return win;
@@ -90,15 +90,27 @@ void Chess_Play()
 			y2 = (mouse_y - 1) / 2;
 			if (chess_game[y2][x2] % 10 == player)
 			{
-				x1 = x2;
-				y1 = y2;
+				if (((chess_game[y1][x1] - player) / 10) == 1 && ((chess_game[y2][x2] - player) / 10) == 5)
+				{
+					piece = 6;
+					break;
+				}
+				else
+				{
+
+					x1 = x2;
+					y1 = y2;
+				}
 			}
 			else if (mouse_x % 2 == 1 && mouse_y % 2 == 1)
 			{
 				break;
 			}
 		}
-		piece = (chess_game[y1][x1] - player) / 10;
+		if (piece != 6)
+		{
+			piece = (chess_game[y1][x1] - player) / 10;
+		}
 		if (chess_game[y2][x2] % 10 == 0)
 		{
 			state = 0;
@@ -122,12 +134,15 @@ void Chess_Play()
 			Chess_Bishop();
 			break;
 		case 4:
-			Chess_King();
-			break;
-		case 5:
 			Chess_Queen();
 			break;
-
+		case 5:
+			Chess_King();
+			break;
+		case 6:
+			Chess_Castling();
+			piece = -1;
+			break;
 		default:
 			break;
 		}
@@ -177,10 +192,10 @@ void Chess_Board()
 					printf("B");
 					break;
 				case 4:
-					printf("K");
+					printf("Q");
 					break;
 				case 5:
-					printf("Q");
+					printf("K");
 					break;
 				default:
 					break;
@@ -204,10 +219,10 @@ void Chess_Board()
 					printf("B");
 					break;
 				case 4:
-					printf("K");
+					printf("Q");
 					break;
 				case 5:
-					printf("Q");
+					printf("K");
 					break;
 				default:
 					break;
@@ -229,8 +244,26 @@ void Chess_Pawn()
 		{
 			if ((x1 - x2 == 1 || x2 - x1 == 1) && y2 - y1 == 1)
 			{
-				chess_game[y2][x2] = 01;
-				chess_game[y1][x1] = 00;
+				if (y2 == 7)
+				{
+					int sta;
+					do
+					{
+						gotocurserXY(1, 19);
+						printf("어떤기물을 선택하시겠습니까?\n1 :룩 2 : 나이트 3 : 비숍 4 : 퀸\n    ");
+						gotocurserXY(1, 21);
+						scanf_s("%d", &sta);
+					} while (!(sta == 4 || (sta <= 3 && sta >= 1)));
+					chess_game[y2][x2] = sta * 10 + 1;
+					chess_game[y1][x1] = 00;
+				}
+				else
+				{
+
+					chess_game[y2][x2] = 01;
+					chess_game[y1][x1] = 00;
+				}
+
 				turnend = 1;
 			}
 		}
@@ -238,8 +271,25 @@ void Chess_Pawn()
 		{
 			if (x1 == x2 && y2 - y1 == 1)
 			{
-				chess_game[y2][x2] = 01;
-				chess_game[y1][x1] = 00;
+				if (y2 == 7)
+				{
+					int sta;
+					do
+					{
+						gotocurserXY(1, 19);
+						printf("어떤기물을 선택하시겠습니까?\n1 :룩 2 : 나이트 3 : 비숍 4 : 퀸\n    ");
+						gotocurserXY(1, 21);
+						scanf_s("%d", &sta);
+					} while (!(sta == 4 || (sta <= 3 && sta >= 1)));
+					chess_game[y2][x2] = sta * 10 + 1;
+					chess_game[y1][x1] = 00;
+				}
+				else
+				{
+
+					chess_game[y2][x2] = 01;
+					chess_game[y1][x1] = 00;
+				}
 				turnend = 1;
 			}
 			else if (x1 == x2 && y2 - y1 == 2)
@@ -261,8 +311,25 @@ void Chess_Pawn()
 		{
 			if ((x1 - x2 == 1 || x2 - x1 == 1) && y1 - y2 == 1)
 			{
-				chess_game[y2][x2] = 02;
-				chess_game[y1][x1] = 00;
+				if (y2 == 0)
+				{
+					int sta;
+					do
+					{
+						gotocurserXY(1, 19);
+						printf("어떤기물을 선택하시겠습니까?\n1 :룩 2 : 나이트 3 : 비숍 4 : 퀸\n    ");
+						gotocurserXY(1, 21);
+						scanf_s("%d", &sta);
+					} while (!(sta == 4 || (sta <= 3 && sta >= 1)));
+					chess_game[y2][x2] = sta * 10 + 2;
+					chess_game[y1][x1] = 00;
+				}
+				else
+				{
+
+					chess_game[y2][x2] = 02;
+					chess_game[y1][x1] = 00;
+				}
 				turnend = 1;
 			}
 		}
@@ -270,8 +337,26 @@ void Chess_Pawn()
 		{
 			if (x1 == x2 && y1 - y2 == 1)
 			{
-				chess_game[y2][x2] = 02;
-				chess_game[y1][x1] = 00;
+				if (y2 == 0)
+				{
+
+					int sta;
+					do
+					{
+						gotocurserXY(1, 19);
+						printf("어떤기물을 선택하시겠습니까?\n1 :룩 2 : 나이트 3 : 비숍 4 : 퀸\n    ");
+						gotocurserXY(1, 21);
+						scanf_s("%d", &sta);
+					} while (!(sta == 4 || (sta <= 3 && sta >= 1)));
+					chess_game[y2][x2] = sta * 10 + 2;
+					chess_game[y1][x1] = 00;
+				}
+				else
+				{
+
+					chess_game[y2][x2] = 02;
+					chess_game[y1][x1] = 00;
+				}
 				turnend = 1;
 			}
 			else if (x1 == x2 && y1 - y2 == 2)
@@ -617,6 +702,54 @@ void Chess_King()
 	}
 }
 
+void Chess_Castling()
+{
+
+	if (y1 == y2 && (y1 == 0 || y1 == 7) && x2 == 4 && (x1 == 0 || x1 == 7))
+	{
+		if (x1 < x2)
+		{
+			int i;
+			for (i = 1; x1 + i < x2; i++)
+			{
+				if (chess_game[y1][x1 + i] != 00)
+				{
+					break;
+				}
+			}
+			if (x1 + i == x2)
+			{
+				chess_game[y2][x2] = 00;
+				chess_game[y2][x1] = 00;
+				chess_game[y2][3] = 10 + player;
+				chess_game[y1][2] = 50 + player;
+				turnend = 1;
+
+			}
+		}
+		else
+		{
+			int i;
+			for (i = 1; x1 - i > x2; i++)
+			{
+				if (chess_game[y1][x1 - i] != 00)
+				{
+					break;
+				}
+			}
+			if (x1 - i == x2)
+			{
+				chess_game[y2][x2] = 00;
+				chess_game[y2][x1] = 00;
+				chess_game[y2][5] = 10 + player;
+				chess_game[y1][6] = 50 + player;
+				turnend = 1;
+			}
+		}
+
+	}
+}
+
 int Chess_Check()
 {
 	int p1 = 0, p2 = 0;
@@ -624,11 +757,11 @@ int Chess_Check()
 	{
 		for (int j = 0; j < 8; j++)
 		{
-			if (chess_game[i][j] == 41)
+			if (chess_game[i][j] == 51)
 			{
 				p1 = 1;
 			}
-			else if (chess_game[i][j] == 42)
+			else if (chess_game[i][j] == 52)
 			{
 				p2 = 1;
 			}
@@ -659,7 +792,7 @@ void Chess_End(int p)
 			chess_game[i][j] = chess_game1[i][j];
 		}
 	}
-	printf("%s(이)가 승리하였습니다.\n마우스를 클릭하면 게임 선택화면으로 이동합니다.", playername[p-1]);
+	printf("%s(이)가 승리하였습니다.\n마우스를 클릭하면 게임 선택화면으로 이동합니다.", playername[p - 1]);
 	Sleep(1000);
 	Mouse_Check();
 	consol_clear();

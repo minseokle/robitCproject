@@ -113,7 +113,7 @@ void recording(char* ocgame, int win)
 	{
 		fprintf(f, "%s", rec[j].arr);
 	}
-	fprintf(f, "   <%s vs %s> \n   %s %s win!!!\nend\n", playername[0], playername[1], ocgame, playername[win - 1]);
+	fprintf(f, "   <%s vs %s> \n   %s %s win!!!\n\nend\n", playername[0], playername[1], ocgame, playername[win - 1]);
 	fclose(f);
 	free(rec);
 }

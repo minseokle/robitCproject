@@ -17,6 +17,7 @@ void Chess_Knigt();
 void Chess_Bishop();
 void Chess_Queen();
 void Chess_King();
+void Chess_Castling();
 int Chess_Check();
 void Chess_End(int p);
 

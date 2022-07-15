@@ -9,7 +9,8 @@ void consol_clear()
 	DWORD dw;
 	FillConsoleOutputCharacter(COUT, ' ', 80 * 80, Coor, &dw);
 }
-void gotocurserXY(int x, int y) {
+void gotocurserXY(int x, int y) 
+{
 	COORD cur;
 	cur.X = x;
 	cur.Y = y;
@@ -51,7 +52,8 @@ void Mouse_Check()
 
 }
 
-void Color_set(int color) {
+void Color_set(int color) 
+{
 	SetConsoleTextAttribute(COUT, color);
 }
 
@@ -70,13 +72,13 @@ void player_change()
 		player = 2;
 		Color_set(WHITE);
 		gotocurserXY(1, 19);
-		printf("%sÂ÷·Ê",playername[1]);
+		printf("%sÂ÷·Ê         ",playername[1]);
 	}
 	else
 	{
 		player = 1;
 		Color_set(WHITE);
 		gotocurserXY(1, 19);
-		printf("%sÂ÷·Ê", playername[0]);
+		printf("%sÂ÷·Ê          ", playername[0]);
 	}
 }
