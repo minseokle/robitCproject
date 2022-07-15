@@ -24,6 +24,7 @@ int mouse_y;
 void gotocurserXY(int x, int y);
 void Mouse_Able();
 void Mouse_Check();
+void Mouse_drag();
 void Color_set(int color);
 void Print_Message(char* mas);
 void player_change();

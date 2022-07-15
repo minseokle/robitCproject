@@ -83,7 +83,7 @@ void Omok_stone_down()
 			} while (!(mouse_x % 2 == 1 && mouse_x <= 37 && mouse_y >= 0 && mouse_y <= 18 && mouse_x >= 1));
 			x = mouse_x / 2;
 			y = mouse_y;
-		} while (Omok_board[y][(x) / 2] != 0);
+		} while (Omok_board[y][x] != 0);
 		int dx[8] = { 1,-1,0,0,1,-1,1,-1 };
 		int dy[8] = { 0,0,1,-1,1,-1,-1,1 };
 		c3 = 0, c4 = 0, ob = 0;

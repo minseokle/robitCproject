@@ -5,6 +5,7 @@
 #include"chess.h"
 #include"game.h"
 #include"Omok.h"
+#include"bfs.h"
 
 typedef struct
 {
@@ -47,6 +48,14 @@ void main()
 		else if (mouse_y == 12)
 		{
 			consol_clear();
+			bfs_start();
+			printf("마우스를 클릭하면 메뉴화면으로 넘어갑니다.");
+			Mouse_Check();
+
+		}
+		else if (mouse_y == 14)
+		{
+			consol_clear();
 			gotocurserXY(0, 0);
 			FILE* f = fopen("record.txt", "r");
 			int i = 0;
@@ -61,7 +70,7 @@ void main()
 			Mouse_Check();
 
 		}
-		else if (mouse_y == 14)
+		else if (mouse_y == 16)
 		{
 			FILE* f = fopen("record.txt", "w");
 			fprintf(f, "end\n");
@@ -88,9 +97,11 @@ void print_menu()
 	printf("                                                    \n");
 	printf("                  ▶오목 시작                       \n");
 	printf("                                                    \n");
-	printf("                  ▷전적 확인하기                   \n");
+	printf("                  ▷bfs미로 찾기 시작               \n");
 	printf("                                                    \n");
-	printf("                  ▶전적 초기화                     \n");
+	printf("                  ▶전적 확인하기                   \n");
+	printf("                                                    \n");
+	printf("                  ▷전적 초기화                     \n");
 
 
 }

@@ -51,6 +51,24 @@ void Mouse_Check()
 	}
 
 }
+void Mouse_drag()
+{
+	while (1)
+	{
+		ReadConsoleInput(CIN, &rec, 1, &dwNOER);
+		if (rec.EventType == MOUSE_EVENT)
+		{
+			if (rec.Event.MouseEvent.dwButtonState & FROM_LEFT_1ST_BUTTON_PRESSED)
+			{
+				mouse_x = rec.Event.MouseEvent.dwMousePosition.X;
+				mouse_y = rec.Event.MouseEvent.dwMousePosition.Y;
+				return;
+			}
+
+		}
+	}
+
+}
 
 void Color_set(int color) 
 {
@@ -72,13 +90,19 @@ void player_change()
 		player = 2;
 		Color_set(WHITE);
 		gotocurserXY(1, 19);
-		printf("%sÂ÷·Ê         ",playername[1]);
+		printf("%sÂ÷·Ê         \n",playername[1]);
+		printf("                             \n");
+		printf("                             \n");
+		printf("                             \n");
 	}
 	else
 	{
 		player = 1;
 		Color_set(WHITE);
 		gotocurserXY(1, 19);
-		printf("%sÂ÷·Ê          ", playername[0]);
+		printf("%sÂ÷·Ê          \n", playername[0]);
+		printf("                             \n");
+		printf("                             \n");
+		printf("                             \n");
 	}
 }
